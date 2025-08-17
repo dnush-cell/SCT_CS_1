@@ -1,53 +1,39 @@
-#include <stdio.h>
+def caesar_cipher(text, shift, choice):
+    result = ""
 
-int main() {
-    char text[100];
-    int shift, choice;
-    int i;
-    
-    printf("=== CAESAR CIPHER PROGRAM ===\n");
-    printf("1. Encrypt\n");
-    printf("2. Decrypt\n");
-    printf("Enter your choice (1 or 2): ");
-    scanf("%d", &choice);
-    
-    printf("Enter your message: ");
-    scanf(" %[^\n]", text);
-    
-    printf("Enter shift value: ");
-    scanf("%d", &shift);
-    for (i = 0; text[i] != '\0'; i++) {
+    for char in text:
+        # For uppercase letters A-Z
+        if char.isupper():
+            if choice == 1:  # Encrypt
+                result += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
+            else:  # Decrypt
+                result += chr((ord(char) - ord('A') - shift + 26) % 26 + ord('A'))
         
-        // For uppercase letters A-Z
-        if (text[i] >= 'A' && text[i] <= 'Z') {
-            if (choice == 1) {
-                // Encrypt
-                text[i] = (text[i] - 'A' + shift) % 26 + 'A';
-            } else {
-                // Decrypt
-                text[i] = (text[i] - 'A' - shift + 26) % 26 + 'A';
-            }
-        }
+        # For lowercase letters a-z
+        elif char.islower():
+            if choice == 1:  # Encrypt
+                result += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
+            else:  # Decrypt
+                result += chr((ord(char) - ord('a') - shift + 26) % 26 + ord('a'))
         
-        // For lowercase letters a-z
-        else if (text[i] >= 'a' && text[i] <= 'z') {
-            if (choice == 1) {
-                // Encrypt
-                text[i] = (text[i] - 'a' + shift) % 26 + 'a';
-            } else {
-                // Decrypt
-                text[i] = (text[i] - 'a' - shift + 26) % 26 + 'a';
-            }
-        }
-        
-       
-    }
-    
-    if (choice == 1) {
-        printf("Encrypted message: %s\n", text);
-    } else {
-        printf("Decrypted message: %s\n", text);
-    }
-    
-    return 0;
-}
+        # Leave other characters unchanged (spaces, numbers, etc.)
+        else:
+            result += char
+
+    return result
+
+
+print("=== CAESAR CIPHER PROGRAM ===")
+print("1. Encrypt")
+print("2. Decrypt")
+
+choice = int(input("Enter your choice (1 or 2): "))
+text = input("Enter your message: ")
+shift = int(input("Enter shift value: "))
+
+output = caesar_cipher(text, shift, choice)
+
+if choice == 1:
+    print("Encrypted message:", output)
+else:
+    print("Decrypted message:", output)
